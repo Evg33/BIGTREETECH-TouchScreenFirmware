@@ -14,7 +14,8 @@
  * ST7920_SPI // Marlin Mode
  * SERIAL_TSC // Touch Mode
  */
-#define DEFAULT_LCD_MODE SERIAL_TSC
+//#define DEFAULT_LCD_MODE SERIAL_TSC
+#define DEFAULT_LCD_MODE ST7920_SPI
 
 /**
  * Default Startup Knob LED Color (TFT35 E3)
@@ -75,7 +76,7 @@
  *  Options:  0: Disabled. RECOMMENDED FOR TFT24
  *            1: Enabled Marlin Fullscreen mode.
  */
-#define DEFAULT_ST7920_FULLSCREEN_MODE 0 // 0: Disabled. RECOMMENDED FOR TFT24
+#define DEFAULT_ST7920_FULLSCREEN_MODE 1 // 0: Disabled. RECOMMENDED FOR TFT24
 
 /**
  * Clean Mode Switching Support
@@ -86,7 +87,7 @@
  *
  * *** ONLY SUPPORTED ON TFT24 V1.1, TFT35 V3.0, AND TFT28 V3.0 ***
  */
-//#define CLEAN_MODE_SWITCHING_SUPPORT  // Enable CLEAN MODE SWITCHING SUPPORT
+#define CLEAN_MODE_SWITCHING_SUPPORT  // Enable CLEAN MODE SWITCHING SUPPORT
 
 //===========================================================================
 //========================== Touch Mode Settings ============================
@@ -101,7 +102,8 @@
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-#define BAUDRATE 115200
+//#define BAUDRATE 115200
+#define BAUDRATE 250000
 
 /**
  * Default Touch Mode Language
@@ -110,7 +112,7 @@
  *
  * Options: ARMENIAN, CHINESE, CZECH, DUTCH, ENGLISH, FRENCH, GERMAN, HUNGARIAN, ITALIAN, JAPANESE, POLISH, PORTUGUESE, RUSSIAN, SLOVAK, SPAIN
  */
-#define DEFAULT_LANGUAGE ENGLISH
+#define DEFAULT_LANGUAGE RUSSIAN
 
 /**
  *  Show bootscreen when starting up
@@ -138,13 +140,13 @@
 #define REMINDER_FONT_COLOR         RED    // Reminder font color, such as: "No print attached", "Busy processing", etc.
 #define VOLUME_REMINDER_FONT_COLOR  GBLUE  // Volume reminder font color, such as: "Card inserted", "Card removed"
 
-#define TOOL_NUM     1    // set in 1~6
-#define EXTRUDER_NUM 1    // set in 1~6
+#define TOOL_NUM     2    // set in 1~6
+#define EXTRUDER_NUM 2    // set in 1~6
 #define FAN_NUM      1    // set in 1~6
 
 //                       PLA      PETG       ABS
-#define PREHEAT_BED      {60,      70,       100}
-#define PREHEAT_HOTEND   {200,     250,      230}
+#define PREHEAT_BED      {55,      70,       100}
+#define PREHEAT_HOTEND   {195,     220,      230}
 
 #define HEAT_MAX_TEMP    {150,    275,       275,       275,       275,       275,       275}    //max temperature can be set
 #define HEAT_SIGN_ID     {"B:",   "T0:",     "T1:",     "T2:",     "T3:",     "T4:",     "T5:"}
@@ -177,9 +179,9 @@
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
-#define X_MAX_POS 235
-#define Y_MAX_POS 235
-#define Z_MAX_POS 250
+#define X_MAX_POS 160
+#define Y_MAX_POS 160
+#define Z_MAX_POS 165
 
 // Specify a pause position as { X, Y, Z_raise }
 #define NOZZLE_PAUSE_RETRACT_LENGTH 15   // (mm)
@@ -211,7 +213,7 @@
 #define LEVELING_POINT_3_Y         (Y_MAX_POS - 20)
 #define LEVELING_POINT_4_X         (X_MIN_POS + 20)
 #define LEVELING_POINT_4_Y         (Y_MAX_POS - 20)
-#define LEVELING_POINT_Z           0.2f  // Z-axis position when nozzle stays for leveling
+#define LEVELING_POINT_Z           0.1f  // Z-axis position when nozzle stays for leveling
 #define LEVELING_POINT_MOVE_Z      10.0f // Z-axis position when nozzle move to next point
 #define LEVELING_POINT_XY_FEEDRATE 6000  // (mm/min) X and Y axes move feedrate
 #define LEVELING_POINT_Z_FEEDRATE  600   // (mm/min) Z axis move feedrate
