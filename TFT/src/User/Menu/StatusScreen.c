@@ -41,7 +41,7 @@ static float yaxis;
 static float zaxis;
 static bool gantryCmdWait = false;
 
-TOOL current_Ext = NOZZLE0;
+TOOL current_tool = NOZZLE0;
 int current_fan = 0;
 int current_speedID = 0;
 const char* SpeedID[2] = SPEED_ID;
@@ -96,10 +96,10 @@ void drawTemperature(void)
   GUI_SetTextMode(GUI_TEXTMODE_TRANS);
   GUI_SetColor(HEADING_COLOR);
   menuDrawIconOnly(&ToolItems[0],0);                                                   //Ext icon
-  GUI_DispStringRight(pointID[0].x, pointID[0].y, (u8 *)heatDisplayID[current_Ext]);   //Ext label
+  GUI_DispStringRight(pointID[0].x, pointID[0].y, (u8 *)heatDisplayID[current_tool]);   //Ext label
 
   GUI_SetColor(VAL_COLOR);
-  my_sprintf(tempstr, "%d/%d", heatGetCurrentTemp(current_Ext), heatGetTargetTemp(current_Ext));
+  my_sprintf(tempstr, "%d/%d", heatGetCurrentTemp(current_tool), heatGetTargetTemp(current_tool));
   GUI_DispStringInPrect(&rectB[0], (u8 *)tempstr);                            //Ext value
 
   GUI_SetColor(HEADING_COLOR);
@@ -233,8 +233,8 @@ float getAxisLocation(u8 n){
 
 void statusScreen_setMsg(const uint8_t *title, const uint8_t *msg)
 {
-  memcpy(msgtitle, (char *)title, sizeof(msgtitle));
-  memcpy(msgbody, (char *)msg, sizeof(msgbody));
+  strncpy(msgtitle, (char *)title, sizeof(msgtitle));
+  strncpy(msgbody, (char *)msg, sizeof(msgbody));
 
   if (infoMenu.menu[infoMenu.cur] == menuStatus && booted == true)
   {
@@ -271,17 +271,14 @@ void toggleTool(void)
 {
   if (OS_GetTimeMs() > nextTime)
   {
-    if (EXTRUDER_NUM > 1)
+    if (infoSettings.tool_count > 1)
     {
-      current_Ext = (TOOL)((current_Ext + 1) % HEATER_NUM);
-      if (current_Ext == 0)
-      {
-        current_Ext += 1;
-      }
+      current_tool = (TOOL)((current_tool+1) % HEATER_COUNT);
+      current_tool = (current_tool == 0) ? 1 : current_tool;
     }
-    if (FAN_NUM > 1)
+    if (infoSettings.fan_count > 1)
     {
-      current_fan = (current_fan + 1) % FAN_NUM;
+      current_fan = (current_fan + 1) % infoSettings.fan_count;
     }
     current_speedID = (current_speedID + 1) % 2;
     nextTime = OS_GetTimeMs() + update_time;
@@ -320,10 +317,10 @@ void menuStatus(void)
   {
     if(infoHost.connected != lastConnection_status){
       if(infoHost.connected == false){
-        statusScreen_setMsg(textSelect(LABEL_SCREEN_INFO), textSelect(LABEL_UNCONNECTED));
+        statusScreen_setMsg(textSelect(LABEL_STATUS), textSelect(LABEL_UNCONNECTED));
       }
       else{
-        statusScreen_setMsg(textSelect(LABEL_SCREEN_INFO), textSelect(LABEL_READY));
+        statusScreen_setMsg(textSelect(LABEL_STATUS), textSelect(LABEL_READY));
       }
       lastConnection_status = infoHost.connected;
     }
